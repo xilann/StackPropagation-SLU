@@ -1,0 +1,3 @@
+slot f1:0
+intent acc: 0.74
+semactic acc: 0.48

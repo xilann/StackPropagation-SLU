@@ -22,7 +22,7 @@ import numpy as np
 parser = argparse.ArgumentParser()
 
 # Training parameters.
-parser.add_argument('--data_dir', '-dd', type=str, default='data/atis')
+parser.add_argument('--data_dir', '-dd', type=str, default='data/atis') # atis 
 parser.add_argument('--save_dir', '-sd', type=str, default='save')
 parser.add_argument("--random_state", '-rs', type=int, default=0)
 parser.add_argument('--num_epoch', '-ne', type=int, default=300)
@@ -83,6 +83,13 @@ if __name__ == "__main__":
     # To train and evaluate the models.
     process = Processor(dataset, model, args.batch_size)
     process.train()
+
+    slot_f1,slot_precision,slot_recall, intent_acc, sent_acc = Processor.validate(
+        os.path.join(args.save_dir, "model/model.pkl"),
+        os.path.join(args.save_dir, "model/dataset.pkl"),
+        args.batch_size)
+    print('\nTest result: slot f1 score: {:.6f}, slot precision:{:.6f},slot recall:{:.6f},intent acc score: {:.6f}, semantic '
+                      'accuracy score: {:.6f}.'.format(slot_f1,slot_precision,slot_recall,intent_acc,sent_acc))
 
     print('\nAccepted performance: ' + str(Processor.validate(
         os.path.join(args.save_dir, "model/model.pkl"),
